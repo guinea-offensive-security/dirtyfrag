@@ -70,3 +70,23 @@ x86_64-linux-musl-gcc
 ```
 
 Only x86_64 glibc builds were produced in this pass.
+
+## Docker Compatibility Check
+
+The exploit binary was not executed during these Docker checks. The checks only
+validated architecture, dynamic loader compatibility, and shared-library
+resolution. Running the exploit inside Docker would still exercise the host
+kernel, not an isolated container kernel.
+
+| Image | Arch | Dynamic build | Static build |
+| --- | --- | --- | --- |
+| `debian:11` | `x86_64` | Fails: requires newer glibc symbols including `GLIBC_2.33`, `GLIBC_2.34`, `GLIBC_2.38` | OK: not a dynamic executable |
+| `debian:12` | `x86_64` | Fails: requires `GLIBC_2.38` | OK: not a dynamic executable |
+| `ubuntu:20.04` | `x86_64` | Fails: requires newer glibc symbols including `GLIBC_2.33`, `GLIBC_2.34`, `GLIBC_2.38` | OK: not a dynamic executable |
+| `ubuntu:22.04` | `x86_64` | Fails: requires `GLIBC_2.38` | OK: not a dynamic executable |
+| `ubuntu:24.04` | `x86_64` | OK: resolves with container glibc | OK: not a dynamic executable |
+
+Recommendation:
+
+- Use `exp-x86_64-glibc-static` for broad x86_64 Debian/Ubuntu targets.
+- Use `exp-x86_64-glibc-dynamic` only on systems with a new enough glibc, verified on `ubuntu:24.04`.
