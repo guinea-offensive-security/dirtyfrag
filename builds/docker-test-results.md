@@ -15,6 +15,13 @@ The exploit binary was not executed. These checks validate binary compatibility
 only: architecture, dynamic loader verification, and `ldd` dependency
 resolution. Running the exploit in Docker still targets the host kernel.
 
+Each container also ran `id` before and after each build compatibility check.
+All tested images ran as Docker root:
+
+```text
+uid=0(root) gid=0(root) groups=0(root)
+```
+
 ## Summary
 
 | Image | OS | Dynamic | Static |
@@ -32,14 +39,24 @@ resolution. Running the exploit in Docker still targets the host kernel.
 ```text
 OS=Debian GNU/Linux 11 (bullseye)
 ARCH=x86_64
+CONTAINER_ID_BEFORE
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-dynamic:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=FAIL_DYNAMIC_DEPS
 Missing versions: GLIBC_2.33, GLIBC_2.34, GLIBC_2.38
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-static:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_STATIC
 ldd: not a dynamic executable
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ### Debian 12
@@ -47,14 +64,24 @@ ldd: not a dynamic executable
 ```text
 OS=Debian GNU/Linux 12 (bookworm)
 ARCH=x86_64
+CONTAINER_ID_BEFORE
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-dynamic:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=FAIL_DYNAMIC_DEPS
 Missing version: GLIBC_2.38
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-static:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_STATIC
 ldd: not a dynamic executable
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ### Ubuntu 20.04
@@ -62,14 +89,24 @@ ldd: not a dynamic executable
 ```text
 OS=Ubuntu 20.04.6 LTS
 ARCH=x86_64
+CONTAINER_ID_BEFORE
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-dynamic:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=FAIL_DYNAMIC_DEPS
 Missing versions: GLIBC_2.33, GLIBC_2.34, GLIBC_2.38
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-static:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_STATIC
 ldd: not a dynamic executable
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ### Ubuntu 22.04
@@ -77,14 +114,24 @@ ldd: not a dynamic executable
 ```text
 OS=Ubuntu 22.04.5 LTS
 ARCH=x86_64
+CONTAINER_ID_BEFORE
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-dynamic:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=FAIL_DYNAMIC_DEPS
 Missing version: GLIBC_2.38
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-static:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_STATIC
 ldd: not a dynamic executable
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ### Ubuntu 24.04
@@ -92,13 +139,23 @@ ldd: not a dynamic executable
 ```text
 OS=Ubuntu 24.04.4 LTS
 ARCH=x86_64
+CONTAINER_ID_BEFORE
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-dynamic:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_DYNAMIC_DEPS
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 
 exp-x86_64-glibc-static:
+ID_BEFORE_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 RESULT=PASS_STATIC
 ldd: not a dynamic executable
+ID_AFTER_BUILD_TEST
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ## Recommendation
